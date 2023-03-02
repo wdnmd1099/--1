@@ -1,24 +1,10 @@
-let _number ;
-function x1() {
-    //拿到url #后的值
-    const app = document.querySelector(`#app`)
-    const number = window.location.hash.substring(1) || 1
-    
-    //根据拿到不同的值去渲染相应的页面
-    const div = document.querySelector(`#div${number}`)
-    div.setAttribute("style", "display:block")
-    app.appendChild(div)
-    // div.style.display = "block" 也能这样写
-    //如果切换的话，就把旧的剪切然后改成display none 然后插入到body里
-    //知识点 appendChild 是剪切粘贴，把一个元素剪切然后粘贴到你想要的地方
-    if(_number !== number && _number!==undefined){
-        document.body.appendChild(document.querySelector(`#div${_number}`))
-        .setAttribute("style", "display:none")
-    }
-    _number = number
+import {eventHub} from './xxx' 
 
-}
 
-x1()
+// main.js 订阅了同一个监听事件，但是触发的函数不同
+eventHub.on('click', (data)=>{console.log('main.js的click事件被触发:' + data + '这句话代表不同的函数')})
+eventHub.on('click', (data)=>{console.log('main.js的click事件被触发:' + data)})
 
-window.addEventListener('hashchange', () => {x1(), console.log("hash变了")} )
+
+// 如果订阅的事件不被发布，就不会被执行所传的函数
+eventHub.on('upPage', (data)=>{console.log('main.js的upPage事件被触发:' + data)})
